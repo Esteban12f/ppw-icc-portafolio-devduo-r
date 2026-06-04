@@ -1,0 +1,37 @@
+<main class="bg-background text-on-background">
+
+  <!-- Ya no necesitas el modo 'detalle', usaremos el modo 'lista' para todo -->
+  <section class="max-w-7xl mx-auto px-6 py-24 space-y-24">
+    <h2 class="text-4xl font-bold mb-16 text-center">Nuestros Programadores</h2>
+    
+    @for (prog of todosLosProgramadores; track prog.id) {
+      <!-- El ID aquí es lo que permite el autoscroll hacia el fragmento -->
+      <article [id]="prog.id" class="border-b border-outline-variant/20 pb-16 last:border-0 scroll-mt-24">
+        
+        <div class="flex flex-col md:flex-row gap-8 items-start mb-10">
+          <div class="w-32 h-32 rounded-xl bg-slate-800 shrink-0"></div>
+          <div class="flex-1">
+            <h3 class="text-3xl font-bold mb-2">{{ prog.nombre }}</h3>
+            <p class="text-primary text-lg mb-4">{{ prog.rol }}</p>
+            <p class="text-on-surface-variant max-w-3xl leading-relaxed">{{ prog.bio }}</p>
+          </div>
+        </div>
+
+        <h4 class="text-xl font-semibold mb-6">Proyectos</h4>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          @for (proyecto of prog.proyectos; track proyecto) {
+            <div class="bg-surface/40 p-5 rounded-lg border border-outline-variant/10">
+              <h5 class="font-bold mb-1">{{ proyecto }}</h5>
+              <span class="text-xs px-2 py-1 rounded bg-primary/10 text-primary uppercase">Compartido</span>
+            </div>
+          } @empty {
+            <p class="text-sm text-slate-500">No hay proyectos registrados.</p>
+          }
+        </div>
+      </article>
+    } @empty {
+      <div class="p-20 text-center">Cargando perfil...</div>
+    }
+  </section>
+
+</main>

@@ -1,0 +1,104 @@
+<main class="bg-slate-950 text-white overflow-hidden">
+
+  <section class="relative min-h-screen flex items-center">
+    <div class="absolute top-20 left-20 w-96 h-96 bg-cyan-500/20 blur-[150px] rounded-full"></div>
+    <div class="absolute bottom-20 right-20 w-96 h-96 bg-blue-500/20 blur-[150px] rounded-full"></div>
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 w-full grid lg:grid-cols-12 gap-12 items-center relative z-10">
+      <div class="lg:col-span-8">
+        <div class="inline-block px-4 py-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 uppercase tracking-widest text-xs mb-8">
+          Precisión Arquitectónica
+        </div>
+        <h1 class="text-5xl md:text-7xl font-bold leading-tight mb-8">
+          Ingeniería de
+          <br>
+          <span class="bg-linear-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+            Soluciones de Software
+          </span>
+          <br>
+          Innovadoras
+        </h1>
+        <p class="text-slate-400 text-lg md:text-xl max-w-2xl mb-10">
+          Construimos infraestructura digital de alto rendimiento y escalable. Fusionamos experiencia técnica profunda con diseño sofisticado para impulsar empresas orientadas a la tecnología.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <button class="px-8 py-4 rounded-lg bg-linear-to-r from-blue-600 to-cyan-500 hover:scale-105 transition-all shadow-lg shadow-cyan-500/20 flex items-center gap-2">
+            Trabaja con nosotros
+          </button>
+          <button class="px-8 py-4 rounded-lg border border-slate-700 hover:border-cyan-400 hover:bg-cyan-500/5 transition-all">
+            Ver portafolio
+          </button>
+        </div>
+      </div>
+
+      <div class="hidden lg:flex lg:col-span-4 justify-end">
+        <div class="relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/50 backdrop-blur-md max-w-sm">
+          <div class="w-full h-64 bg-slate-800 flex items-center justify-center text-slate-500">
+            Espacio para imagen
+          </div>
+          <div class="absolute bottom-6 left-6 right-6">
+            <div class="text-cyan-400 text-sm mb-2 font-mono">> System.Initialize()</div>
+            <div class="w-full h-1 bg-slate-700 rounded">
+              <div class="h-full w-2/3 bg-cyan-400 animate-pulse"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24 bg-slate-900">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold mb-4">Nuestros Expertos</h2>
+        <p class="text-slate-400 max-w-xl mx-auto">
+          Una sinergia enfocada en la arquitectura de backend y la elegancia del frontend.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+
+        <div 
+          [routerLink]="['/profile']" [fragment]="'alexander-paucar'"
+          class="bg-slate-950/60 border border-slate-800 rounded-2xl p-8 backdrop-blur-md hover:border-cyan-500 transition-all cursor-pointer block">
+          <div class="flex gap-6">
+            <div class="w-24 h-24 rounded-xl bg-slate-800 shrink-0"></div>
+            <div>
+              <h3 class="text-2xl font-semibold mb-1">Alexander Paucar</h3>
+              <p class="text-cyan-400 mb-4">Arquitecto Full Stack</p>
+              <p class="text-slate-400 mb-6">
+                Especializado en sistemas distribuidos, microservicios escalables e infraestructura en la nube.
+              </p>
+              <div class="flex flex-wrap gap-2">
+                <span class="px-3 py-1 rounded bg-cyan-500/10 text-cyan-400 text-sm">Node.js</span>
+                <span class="px-3 py-1 rounded bg-cyan-500/10 text-cyan-400 text-sm">Go</span>
+                <span class="px-3 py-1 rounded bg-cyan-500/10 text-cyan-400 text-sm">AWS</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div 
+          [routerLink]="['/profile']" [fragment]="'esteban-hernandez'"
+          class="bg-slate-950/60 border border-slate-800 rounded-2xl p-8 backdrop-blur-md hover:border-cyan-500 transition-all cursor-pointer block">
+          <div class="flex gap-6">
+            <div class="w-24 h-24 rounded-xl bg-slate-800 shrink-0"></div>
+            <div>
+              <h3 class="text-2xl font-semibold mb-1">Esteban Hernandez</h3>
+              <p class="text-cyan-400 mb-4">Especialista UI/UX & Frontend</p>
+              <p class="text-slate-400 mb-6">
+                Creación de interfaces perfectas al píxel que fusionan estética con rendimiento técnico.
+              </p>
+              <div class="flex flex-wrap gap-2">
+                <span class="px-3 py-1 rounded bg-cyan-500/10 text-cyan-400 text-sm">React</span>
+                <span class="px-3 py-1 rounded bg-cyan-500/10 text-cyan-400 text-sm">WebGL</span>
+                <span class="px-3 py-1 rounded bg-cyan-500/10 text-cyan-400 text-sm">Figma</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</main>
