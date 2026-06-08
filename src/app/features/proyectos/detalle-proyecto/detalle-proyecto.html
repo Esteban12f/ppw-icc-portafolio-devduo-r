@@ -1,0 +1,40 @@
+<div class="max-w-5xl mx-auto px-6 py-16">
+  <a routerLink="/" fragment="proyectos" class="text-slate-400 hover:text-cyan-400 mb-8 inline-block transition-all">&larr; Volver a proyectos</a>
+
+  @if (proyecto) {
+    <header class="mb-12">
+      <span class="text-cyan-400 font-bold uppercase tracking-widest text-sm">{{ proyecto.Tipo_proyecto }}</span>
+      <h1 class="text-5xl font-bold mt-2 mb-6">{{ proyecto.Titulo }}</h1>
+      <div class="w-full h-96 bg-slate-800 rounded-3xl mb-6"></div> 
+    </header>
+
+    <div class="grid md:grid-cols-3 gap-12">
+      <div class="md:col-span-2">
+        <h2 class="text-2xl font-bold mb-4">Descripción del Proyecto</h2>
+        <p class="text-slate-400 leading-relaxed text-lg whitespace-pre-line">
+            {{ obtenerTexto(proyecto.Descripcion_completa) }}
+        </p>
+      </div>
+
+      <aside class="bg-slate-900 p-8 rounded-2xl border border-slate-800 self-start">
+        <h3 class="font-bold mb-4">Tecnologías</h3>
+        <div class="flex flex-wrap gap-2 mb-8">
+          @for (tech of proyecto.Tecnologias; track tech) {
+            <span class="bg-slate-800 text-cyan-300 px-3 py-1 rounded-lg text-sm">{{ tech }}</span>
+          }
+        </div>
+        
+        <div class="flex flex-col gap-3">
+          @if (proyecto.Enlace_repo) {
+            <a [href]="proyecto.Enlace_repo" target="_blank" class="bg-cyan-600 text-center py-2 rounded-lg font-bold">Ver Repositorio</a>
+          }
+          @if (proyecto.Enlace_demo) {
+            <a [href]="proyecto.Enlace_demo" target="_blank" class="border border-slate-700 text-center py-2 rounded-lg hover:bg-slate-800">Ver Demo</a>
+          }
+        </div>
+      </aside>
+    </div>
+  } @else {
+    <div class="text-center py-20 text-slate-500">Cargando proyecto...</div>
+  }
+</div>

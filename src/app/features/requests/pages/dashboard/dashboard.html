@@ -1,83 +1,65 @@
 <main class="grow w-full max-w-5xl mx-auto px-6 py-12 md:py-20 relative z-10">
-
-  <header class="mb-12 text-center md:text-left">
+  <header class="mb-12">
     <h1 class="text-4xl md:text-5xl font-bold text-on-background mb-4">
-      Centro de <span class="text-primary">Comandos</span>
+      Centro de <span class="text-primary">Solicitudes</span>
     </h1>
     <p class="text-on-surface-variant text-lg max-w-xl">
-      Gestiona tus comunicaciones, rastrea solicitudes arquitectónicas e inicia nuevas consultas técnicas.
+      Gestión de solicitudes realizadas a los programadores expertos.
     </p>
   </header>
 
-  <div class="flex flex-wrap gap-2 mb-10 border-b border-outline-variant/20 pb-4 justify-center md:justify-start">
-    <button (click)="activeTab='sent'" class="px-5 py-2.5 rounded transition-all flex items-center gap-2"
-      [class]="activeTab === 'sent' ? 'bg-primary/10 text-primary border border-primary/30' : 'text-on-surface-variant hover:text-on-surface'">
-      <span class="material-symbols-outlined text-[18px]"></span> Mis Solicitudes
-    </button>
+  <div class="flex flex-wrap gap-2 mb-10 border-b border-outline-variant/20 pb-4 justify-between items-center">
+    <div class="flex gap-2">
+      <button (click)="activeTab='sent'" class="px-5 py-2.5 rounded transition-all"
+        [class]="activeTab === 'sent' ? 'bg-primary/10 text-primary border border-primary/30' : 'text-on-surface-variant hover:text-on-surface'">
+        Mis Solicitudes
+      </button>
+    </div>
 
-    <button (click)="activeTab='received'" class="px-5 py-2.5 rounded transition-all flex items-center gap-2"
-      [class]="activeTab === 'received' ? 'bg-primary/10 text-primary border border-primary/30' : 'text-on-surface-variant hover:text-on-surface'">
-      <span class="material-symbols-outlined text-[18px]"></span> Recibidas
-    </button>
-
-    <button (click)="activeTab='new'" class="ml-auto px-5 py-2.5 rounded transition-all flex items-center gap-2 bg-primary text-on-primary hover:brightness-110">
-      <span class="material-symbols-outlined text-[18px]"></span> Nueva Solicitud
-    </button>
+    <a routerLink="/requests/nueva" 
+       class="px-5 py-2.5 rounded transition-all flex items-center gap-2 bg-primary text-on-primary hover:brightness-110 font-bold border border-white/20">
+      <span class="material-symbols-outlined text-[18px]">+</span> Nueva Solicitud
+    </a>
   </div>
 
   <div class="min-h-100">
-
     @if (activeTab === 'sent') {
-      <section class="animate-fade-in bg-surface-container-low/30 backdrop-blur-sm border border-outline-variant/10 rounded-2xl overflow-hidden shadow-sm">
-        <table class="w-full text-left">
-          <thead class="bg-surface-container-high/50">
-            <tr class="text-on-surface-variant text-sm uppercase tracking-wider">
-              <th class="py-4 px-6">Fecha</th>
-              <th class="py-4 px-6">Programador</th>
-              <th class="py-4 px-6">Proyecto</th>
-              <th class="py-4 px-6 text-center">Estado</th>
-            </tr>
-          </thead>
-          <tbody class="text-on-surface">
-            <tr class="border-t border-outline-variant/10 hover:bg-surface-container-high/20 transition">
-              <td class="py-5 px-6">24/10/2024</td>
-              <td class="py-5 px-6 font-medium">Alex Chen</td>
-              <td class="py-5 px-6">Distributed Ledger</td>
-              <td class="py-5 px-6 text-center">
-                <span class="text-xs px-2 py-1 rounded bg-yellow-500/10 text-yellow-500">Pendiente</span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <section class="animate-fade-in">
+        @if (solicitudes.length > 0) {
+          <div class="bg-surface-container-low/30 backdrop-blur-sm border border-outline-variant/10 rounded-2xl overflow-hidden shadow-sm">
+            <table class="w-full text-left">
+              <thead class="bg-surface-container-high/50">
+                <tr class="text-on-surface-variant text-sm uppercase tracking-wider">
+                  <th class="py-4 px-6">Fecha</th>
+                  <th class="py-4 px-6">Programador</th>
+                  <th class="py-4 px-6 text-center">Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (item of solicitudes; track item.id) {
+                  <tr class="border-t border-outline-variant/10 hover:bg-surface-container-high/20 transition">
+                    <td class="py-5 px-6">{{ item.fecha }}</td>
+                    <td class="py-5 px-6">{{ item.programador }}</td>
+                    <td class="py-5 px-6 text-center">
+                      <span class="text-xs px-2 py-1 rounded bg-yellow-500/10 text-yellow-500">{{ item.estado }}</span>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        } @else {
+          <div class="text-center py-20 bg-surface-container-low/20 rounded-2xl border border-dashed border-outline-variant">
+            <h3 class="text-xl font-bold mb-2">No tienes solicitudes aún</h3>
+            <p class="text-on-surface-variant mb-8">Empieza creando tu primera solicitud técnica.</p>
+            
+            <a routerLink="/requests/nueva" 
+               class="bg-primary text-on-primary px-8 py-3 rounded-lg font-bold hover:brightness-110 transition inline-block border border-white/20">
+              Hacer solicitud
+            </a>
+          </div>
+        }
       </section>
     }
-
-    @if (activeTab === 'received') {
-      <section class="grid md:grid-cols-2 gap-6 animate-fade-in">
-        <div class="bg-surface-container-low/30 border border-outline-variant/20 rounded-2xl p-8 hover:border-primary/50 transition">
-          <span class="text-xs text-primary font-mono bg-primary/5 px-2 py-1 rounded">REQ-092</span>
-          <h3 class="text-xl font-bold mt-3 mb-2">Optimización Data Pipeline</h3>
-          <p class="text-on-surface-variant text-sm mb-6 leading-relaxed">
-            Solicitud de reconstrucción de pipeline ETL utilizando Rust y Kafka...
-          </p>
-          <button class="text-primary font-semibold text-sm hover:underline">Ver detalles</button>
-        </div>
-      </section>
-    }
-
-    @if (activeTab === 'new') {
-      <section class="max-w-xl mx-auto bg-surface-container-low/30 border border-outline-variant/10 rounded-2xl p-8 animate-fade-in shadow-xl">
-        <h2 class="text-2xl font-bold mb-6 text-center">Nueva Solicitud</h2>
-        <form class="space-y-5">
-          <input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-3 outline-none focus:border-primary" placeholder="Nombre completo"/>
-          <input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-3 outline-none focus:border-primary" placeholder="Correo electrónico"/>
-          <textarea class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-3 h-32 outline-none focus:border-primary" placeholder="Describe tu solicitud..."></textarea>
-          <button class="w-full bg-primary text-on-primary font-bold px-8 py-4 rounded-lg hover:brightness-110 transition shadow-lg">
-            Enviar Solicitud
-          </button>
-        </form>
-      </section>
-    }
-
   </div>
 </main>

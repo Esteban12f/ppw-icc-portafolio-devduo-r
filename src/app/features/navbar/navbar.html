@@ -1,0 +1,29 @@
+<nav class="fixed top-0 left-0 right-0 z-50 w-full border-b border-slate-800 bg-slate-950/80 backdrop-blur-md shadow-lg">
+  <div class="mx-auto grid grid-cols-3 items-center px-6 py-3 lg:px-12">
+    
+    <div class="justify-self-start">
+      @if (currentUser) {
+        <div class="flex items-center gap-4">
+          <span class="text-xs text-slate-300 font-medium truncate max-w-30">
+            {{ currentUser.email }}
+          </span>
+          <button (click)="logout()" 
+                  class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20 transition-all">
+            Salir
+          </button>
+        </div>
+      }
+    </div>
+
+    <div class="justify-self-center">
+      <a routerLink="/" class="cursor-pointer text-xl font-bold text-cyan-400 tracking-tight">DevDuo</a>
+    </div>
+
+    <div class="hidden md:flex items-center gap-6 justify-self-end">
+      <a routerLink="/" fragment="home" class="text-xs uppercase tracking-wider text-slate-300 hover:text-cyan-400 transition-colors">Home</a>
+      <a routerLink="/" fragment="programadores" class="text-xs uppercase tracking-wider text-slate-300 hover:text-cyan-400 transition-colors">Programadores</a>
+      <a routerLink="/" fragment="proyectos" class="text-xs uppercase tracking-wider text-slate-300 hover:text-cyan-400 transition-colors">Proyectos</a>
+      <a routerLink="/" fragment="solicitudes" class="text-xs uppercase tracking-wider text-slate-300 hover:text-cyan-400 transition-colors">Solicitudes</a>
+    </div>
+  </div>
+</nav>

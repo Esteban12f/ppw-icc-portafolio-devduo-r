@@ -3,6 +3,8 @@ import { Home } from './features/home/pages/home/home';
 import { Login } from './features/auth/pages/login/login';
 import { Profile } from './features/profile/pages/profile/profile';
 import { Dashboard } from './features/requests/pages/dashboard/dashboard';
+import { NuevaSolicitud } from './features/requests/pages/nueva-solicitud/nueva-solicitud';
+import { DetalleProyectoComponent } from './features/proyectos/detalle-proyecto/detalle-proyecto';
 
 export const routes: Routes = [
   {
@@ -14,11 +16,21 @@ export const routes: Routes = [
     component: Login
   },
   {
-    path: 'profile',
-    component: Profile
-  },
-  {
     path: 'requests',
     component: Dashboard
-  }
+  },
+
+  {
+    path: 'requests/nueva',
+    component: NuevaSolicitud
+  },
+
+  { path: 'proyecto/:slug', 
+    component: DetalleProyectoComponent 
+  },
+
+  {
+    path: 'profile/:id',
+    component: Profile
+  },
 ];

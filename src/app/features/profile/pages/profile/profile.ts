@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { CommonModule, ViewportScroller } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { ProgramadoresService } from '../../../../core/services/programadores.service'; // Asegúrate de importar tu servicio
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core'; // 1. Agregamos ChangeDetectorRef
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { ApiService } from '../../../../services/api';
 
 @Component({
   selector: 'app-profile',
@@ -11,25 +10,48 @@ import { ProgramadoresService } from '../../../../core/services/programadores.se
   imports: [CommonModule, RouterModule]
 })
 export class Profile implements OnInit {
-  todosLosProgramadores: any[] = [];
-
-  constructor(
-    private route: ActivatedRoute,
-    private scroller: ViewportScroller,
-    private progService: ProgramadoresService // Inyecta el servicio aquí
-  ) { }
+  programador: any = null;
+  private api = inject(ApiService);
+  private route = inject(ActivatedRoute);
+  private cdr = inject(ChangeDetectorRef); // 2. Inyectamos para forzar actualización
 
   ngOnInit() {
-    // 1. Cargamos los datos del servicio
-    this.todosLosProgramadores = this.progService.getAll();
-
-    // 2. Manejamos el scroll si viene un fragmento
-    this.route.fragment.subscribe(fragment => {
-      if (fragment) {
-        setTimeout(() => {
-          this.scroller.scrollToAnchor(fragment);
-        }, 300);
+    this.route.paramMap.subscribe(params => {
+      const slug = params.get('id');
+      if (slug) {
+        this.cargarProgramador(slug);
       }
     });
+  }
+
+  cargarProgramador(slug: string) {
+    // Es vital que tu servicio incluya populate=* para traer los proyectos y fotos
+    this.api.getProgramadorBySlug(slug).subscribe({
+      next: (res) => {
+        console.log('Datos recibidos del perfil:', res);
+        if (res.data && res.data.length > 0) {
+          this.programador = res.data[0];
+          this.cdr.detectChanges(); // 3. Forzamos el pintado del HTML
+        } else {
+          this.programador = null;
+        }
+      },
+      error: (err) => {
+        console.error('Error al cargar perfil:', err);
+      }
+    });
+  }
+
+  obtenerTextoCompleto(bloques: any[]): string {
+    if (!bloques || !Array.isArray(bloques)) return '';
+
+    return bloques
+      .map(bloque => {
+        if (bloque.children) {
+          return bloque.children.map((child: any) => child.text).join('');
+        }
+        return '';
+      })
+      .join('\n');
   }
 }

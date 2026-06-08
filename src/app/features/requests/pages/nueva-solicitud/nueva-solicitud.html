@@ -1,0 +1,50 @@
+<main class="grow w-full max-w-2xl mx-auto px-6 py-12 md:py-20 relative z-10">
+  
+  <div class="mb-8">
+    <a routerLink="/requests" class="text-primary hover:underline flex items-center gap-2 mb-4 text-sm font-semibold">
+      <span class="material-symbols-outlined text-[18px]"></span> Volver al Centro de Solicitudes
+    </a>
+    <h1 class="text-3xl font-bold">Nueva Solicitud</h1>
+    <p class="text-on-surface-variant mt-2">Completa los datos para asignar tu proyecto.</p>
+  </div>
+
+  <section class="bg-surface-container-low/30 border border-outline-variant/10 rounded-2xl p-8 shadow-xl">
+    <form class="space-y-5" (ngSubmit)="enviarSolicitud()">
+      
+      <div>
+        <label class="block text-sm font-medium text-on-surface-variant mb-1">Nombre</label>
+        <input name="nombre" [(ngModel)]="nuevaSolicitud.nombre" required
+          class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-3 outline-none focus:border-primary" />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-on-surface-variant mb-1">Correo Electrónico</label>
+        <input name="email" [(ngModel)]="nuevaSolicitud.email" type="email" required
+          class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-3 outline-none focus:border-primary" />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-on-surface-variant mb-1">Programador Asignado</label>
+        <select name="programador" [(ngModel)]="nuevaSolicitud.programador" required
+          class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-3 outline-none focus:border-primary text-on-surface">
+          <option value="" disabled selected>Selecciona un experto...</option>
+          <option value="Alexander Paucar">Alexander Paucar (Full Stack)</option>
+          <option value="Esteban Hernandez">Esteban Hernandez (UI/UX & Frontend)</option>
+          <option value="Cualquiera">Cualquiera disponible</option>
+        </select>
+      </div>
+        
+      <div>
+        <label class="block text-sm font-medium text-on-surface-variant mb-1">Descripción del requerimiento</label>
+        <textarea name="descripcion" [(ngModel)]="nuevaSolicitud.descripcion" required
+          class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-3 h-32 outline-none focus:border-primary"></textarea>
+      </div>
+        
+      <button type="submit" 
+        class="w-full bg-primary text-on-primary font-bold px-8 py-4 rounded-lg hover:brightness-110 transition shadow-lg mt-4 border border-primary/50">
+        Enviar Solicitud
+      </button>
+    </form>
+  </section>
+
+</main>
