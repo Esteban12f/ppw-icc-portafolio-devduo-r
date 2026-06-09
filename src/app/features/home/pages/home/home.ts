@@ -1,14 +1,15 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { ApiService } from '../../../core/services/api';
 import { Auth, user } from '@angular/fire/auth';
-import { Programador, Proyecto } from '../../../models/data.models';
 import { map, Observable, take, BehaviorSubject, combineLatest } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ButtonComponent } from '../../../shared/components/button-component/button-component';
-import { ProjectCard } from '../../../shared/components/project-card/project-card';
-import { DevCard } from '../../../shared/components/dev-card/dev-card';
+import { ButtonComponent } from '../../../../shared/components/button-component/button-component';
+import { ProjectCard } from '../../../../shared/components/project-card/project-card';
+import { DevCard } from '../../../../shared/components/dev-card/dev-card';
+import { ApiService } from '../../../../core/services/api';
+import { Programador, Proyecto } from '../../../../models/data.models';
+
 
 @Component({
   selector: 'app-home',
