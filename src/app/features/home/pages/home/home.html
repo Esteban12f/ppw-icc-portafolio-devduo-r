@@ -26,14 +26,13 @@
       </p>
 
       <div class="flex flex-col sm:flex-row gap-3 justify-center">
-        <a href="#proyectos"
-          class="px-6 py-3 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg font-medium text-sm transition-all shadow-[0_0_15px_-5px_rgba(6,182,212,0.3)]">
+        <app-button variant="primary" (click)="scrollTo('proyectos')">
           Ver proyectos
-        </a>
-        <a href="#solicitudes"
-          class="px-6 py-3 bg-slate-900 border border-slate-800 hover:border-slate-600 text-slate-300 rounded-lg font-medium text-sm transition-all">
+        </app-button>
+
+        <app-button variant="secondary" (click)="scrollTo('solicitudes')">
           Contactar
-        </a>
+        </app-button>
       </div>
     </div>
   </section>
@@ -45,38 +44,8 @@
       </div>
 
       <div class="grid md:grid-cols-2 gap-8">
-        @for (dev of programadores; track dev.id) {
-        <div
-          class="bg-slate-950/60 border border-slate-800 rounded-2xl p-8 backdrop-blur-md hover:border-cyan-500 transition-all flex flex-col items-center text-center">
-
-          @if (dev.Foto_perfil) {
-          <img [src]="'http://localhost:1337' + dev.Foto_perfil.url" class="w-24 h-24 rounded-full mb-4 object-cover">
-          } @else {
-          <div class="w-24 h-24 bg-slate-800 rounded-full mb-4 flex items-center justify-center text-slate-500">
-            <span class="text-2xl">{{ dev.Nombre.charAt(0) }}</span>
-          </div>
-          }
-
-          <h3 class="text-2xl font-semibold mb-1">{{ dev.Nombre }}</h3>
-          <p class="text-cyan-400 mb-2 font-medium">{{ dev.Especialidad }}</p>
-          <p class="text-slate-400 text-sm mb-4 italic">{{ dev.Descripcion }}</p>
-
-          <p class="text-slate-500 text-xs mb-4">{{ dev.Correo_contacto }}</p>
-
-          <div class="flex gap-4 mb-6">
-            @if (dev.Redes_sociales.github) {
-            <a [href]="dev.Redes_sociales.github" target="_blank" class="text-slate-400 hover:text-white">GitHub</a>
-            }
-            @if (dev.Redes_sociales.linkedin) {
-            <a [href]="dev.Redes_sociales.linkedin" target="_blank" class="text-slate-400 hover:text-white">LinkedIn</a>
-            }
-          </div>
-
-          <a [routerLink]="['/profile', dev.Slug]"
-            class="text-cyan-400 hover:text-cyan-300 hover:underline font-medium transition-all">
-            Ver detalle ->
-          </a>
-        </div>
+        @for (dev of (programadores$ | async); track dev.id) {
+        <app-dev-card [dev]="dev"></app-dev-card>
         }
       </div>
     </div>
@@ -84,24 +53,19 @@
 
   <section id="proyectos" class="py-24">
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
-      <h2 class="text-4xl font-bold mb-12 text-center">Nuestros Proyectos</h2>
+      <h2 class="text-4xl font-bold mb-12 text-center">Proyectos Destacados</h2>
 
       <div class="max-w-2xl mx-auto mb-12">
         <div class="relative mb-6 flex gap-2">
-          <input [(ngModel)]="busqueda" (keyup.enter)="cdr.detectChanges()" type="text"
+          <input [ngModel]="busqueda$ | async" (ngModelChange)="busqueda$.next($event)" type="text"
             placeholder="Search projects or technologies..."
             class="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 px-6 text-white focus:border-cyan-500 outline-none transition-all">
-
-          <button (click)="cdr.detectChanges()"
-            class="bg-cyan-600 px-6 py-3 rounded-xl font-bold text-white hover:bg-cyan-700 transition-all">
-            Buscar
-          </button>
         </div>
 
         <div class="flex flex-wrap gap-2 justify-center">
-          @for (tech of todasLasTecnologias; track tech) {
-          <button (click)="tecnologiaFiltro = (tech === 'Todas' ? null : tech)"
-            [class.bg-cyan-600]="(tech === 'Todas' && tecnologiaFiltro === null) || (tecnologiaFiltro === tech)"
+          @for (tech of getTecnologiasUnicas$((proyectos$ | async) || []); track tech) {
+          <button (click)="filtroTecnologia$.next(tech === 'Todas' ? null : tech)"
+            [class.bg-cyan-600]="(filtroTecnologia$ | async) === (tech === 'Todas' ? null : tech)"
             class="bg-slate-800 text-slate-300 px-4 py-1.5 rounded-full text-sm hover:bg-slate-700 transition-all">
             {{ tech }}
           </button>
@@ -110,36 +74,10 @@
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        @for (proyecto of proyectosFiltrados; track proyecto.id) {
-        <div
-          class="bg-slate-950/60 border border-slate-800 rounded-2xl p-8 backdrop-blur-md hover:border-cyan-500 transition-all flex flex-col">
-          <div class="w-full h-48 bg-slate-800 rounded-lg mb-4 flex items-center justify-center text-slate-600">
-            Sin imagen
-          </div>
-          <div class="grow">
-            <h3 class="text-2xl font-semibold mb-2">{{ proyecto.Titulo }}</h3>
-            <p class="text-slate-400 mb-4">{{ proyecto.Descripcion_breve }}</p>
-            <div class="flex flex-wrap gap-2 mb-6">
-              @for (tech of getTecnologiasVisibles(proyecto.Tecnologias); track tech) {
-              <span class="bg-cyan-950 text-cyan-400 px-3 py-1 rounded-full text-xs font-medium border border-cyan-900">
-                {{ tech }}
-              </span>
-              }
-              @if (getTecnologiasOcultas(proyecto.Tecnologias) > 0) {
-              <span
-                class="bg-slate-800 text-slate-400 px-3 py-1 rounded-full text-xs font-medium border border-slate-700">
-                +{{ getTecnologiasOcultas(proyecto.Tecnologias) }}
-              </span>
-              }
-            </div>
-          </div>
-          <a [routerLink]="['/proyecto', proyecto.Slug]"
-            class="w-full text-center bg-transparent border border-cyan-500/50 text-cyan-400 py-2 rounded-lg hover:bg-cyan-500 hover:text-white transition-all font-medium text-sm">
-            Ver detalle
-          </a>
-        </div>
+        @for (proyecto of (proyectosFiltrados$ | async); track proyecto.id) {
+        <app-project-card [proyecto]="proyecto"></app-project-card>
         } @empty {
-        <p class="col-span-full text-center text-slate-500">No se encontraron proyectos con esos criterios.</p>
+        <p class="col-span-full text-center text-slate-500">No se encontraron proyectos.</p>
         }
       </div>
     </div>
@@ -155,15 +93,15 @@
 
       <div class="flex flex-col sm:flex-row justify-center gap-4">
 
-        <button (click)="handleSolicitudClick('/requests/nueva')"
-          class="bg-linear-to-r from-blue-600 to-cyan-500 px-8 py-4 rounded-lg font-bold hover:scale-105 transition-all">
+        <app-button (click)="handleSolicitudClick('/requests/nueva')" variant="primary">
           Mandar solicitud
-        </button>
+        </app-button>
 
-        <button (click)="handleSolicitudClick('/requests')"
-          class="px-8 py-4 rounded-lg font-bold border border-slate-700 hover:bg-slate-800 transition-all text-slate-300">
-          Ver solicitudes
-        </button>
+        @if (user$ | async) {
+        <app-button (click)="handleSolicitudClick('/requests')" variant="secondary">
+          Ver detalle
+        </app-button>
+        }
 
       </div>
     </div>

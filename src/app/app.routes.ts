@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { Home } from './features/home/pages/home/home';
-import { Login } from './features/auth/pages/login/login';
+import { Home } from './features/home/pages/home';
+import { Login } from './features/login/pages/login/login';
 import { Profile } from './features/profile/pages/profile/profile';
 import { Dashboard } from './features/requests/pages/dashboard/dashboard';
 import { NuevaSolicitud } from './features/requests/pages/nueva-solicitud/nueva-solicitud';

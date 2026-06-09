@@ -3,11 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
 import { Router } from '@angular/router';
+import { ButtonComponent } from '../../../../shared/components/button-component/button-component';
+import { InputGroupComponent } from '../../../../shared/components/input-group-component/input-group-component';
+import { CardComponent } from '../../../../shared/components/card-component/card-component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, CardComponent, InputGroupComponent, ButtonComponent],
   templateUrl: './login.html'
 })
 export class Login {

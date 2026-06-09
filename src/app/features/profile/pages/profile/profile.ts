@@ -1,13 +1,16 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core'; // 1. Agregamos ChangeDetectorRef
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { ApiService } from '../../../../services/api';
+import { ApiService } from '../../../../core/services/api';
+import { DevCard } from '../../../../shared/components/dev-card/dev-card';
+import { ProjectCard } from '../../../../shared/components/project-card/project-card';
+import { ButtonComponent } from '../../../../shared/components/button-component/button-component';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.html',
   standalone: true,
-  imports: [CommonModule, RouterModule]
+  imports: [CommonModule, RouterModule, ProjectCard, ButtonComponent],
 })
 export class Profile implements OnInit {
   programador: any = null;

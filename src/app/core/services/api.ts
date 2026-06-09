@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Programador, Proyecto } from '../models/data.models';
+import { Programador, Proyecto } from '../../models/data.models';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
@@ -23,8 +23,10 @@ export class ApiService {
     );
   }
 
-  getProgramadorBySlug(slug: string) {
-    return this.http.get<any>(`${this.baseUrl}/programadors?filters[Slug][$eq]=${slug}&populate=*`);
+  getProgramadorBySlug(slug: string): Observable<any> {
+    const url = `${this.baseUrl}/programadors?filters[Slug][$eq]=${slug}&populate[Foto_perfil]=true&populate[proyectos][populate]=Imagen`;
+
+    return this.http.get<any>(url);
   }
 
   getProyectoBySlug(slug: string) {

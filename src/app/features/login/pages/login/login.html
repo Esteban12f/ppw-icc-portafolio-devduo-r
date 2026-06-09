@@ -1,0 +1,80 @@
+<main class="grow flex items-center justify-center p-6 min-h-screen bg-slate-950">
+    <app-card class="w-full max-w-lg block" [hoverable]="false">
+        <div class="w-full p-8 md:p-12">
+
+            <div class="flex border-b border-slate-800 mb-10 relative">
+                <button (click)="activeTab = 'login'" [class.text-white]="activeTab === 'login'"
+                    class="flex-1 pb-4 font-bold text-slate-500 transition-all relative">
+                    Iniciar Sesión
+                    @if (activeTab === 'login') {
+                        <div class="absolute bottom-0 left-0 w-full h-0.5 bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]"></div>
+                    }
+                </button>
+                <button (click)="activeTab = 'register'" [class.text-white]="activeTab === 'register'"
+                    class="flex-1 pb-4 font-bold text-slate-500 transition-all relative">
+                    Registrarse
+                    @if (activeTab === 'register') {
+                        <div class="absolute bottom-0 left-0 w-full h-0.5 bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]"></div>
+                    }
+                </button>
+            </div>
+
+            @if (activeTab === 'login') {
+                <div class="animate-fade-in">
+                    <h2 class="text-3xl font-bold mb-8 text-white">Bienvenido de nuevo</h2>
+                    
+                    <form #loginForm="ngForm" class="flex flex-col gap-6" (ngSubmit)="handleAuth()">
+                        <app-input-group label="Correo Electrónico" name="email" [(ngModel)]="email" #loginEmail="ngModel" 
+                            type="email" placeholder="ejemplo@correo.com" [invalid]="loginEmail.invalid && loginEmail.touched">
+                        </app-input-group>
+
+                        <app-input-group label="Contraseña" name="password" [(ngModel)]="password" #loginPass="ngModel" 
+                            type="password" placeholder="••••••••" [invalid]="loginPass.invalid && loginPass.touched">
+                        </app-input-group>
+
+                        <app-button type="submit" [disabled]="!!loginForm.invalid">
+                            Ingresar
+                        </app-button>
+                    </form>
+
+                    <div class="mt-8">
+                        <div class="relative flex items-center justify-center text-sm mb-6 text-slate-500 before:border-t before:border-slate-800 before:grow before:mr-4 after:border-t after:border-slate-800 after:grow after:ml-4">O continuar con</div>
+                        
+                        <app-button variant="secondary" (click)="loginWithGoogle()">
+                            <div class="flex items-center justify-center gap-3">
+                                <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" class="w-5 h-5" alt="Google">
+                                <span class="font-semibold">Google</span>
+                            </div>
+                        </app-button>
+                    </div>
+                </div>
+            }
+
+            @if (activeTab === 'register') {
+                <div class="animate-fade-in">
+                    <h2 class="text-3xl font-bold mb-8 text-white">Nueva Identidad</h2>
+                    <form #regForm="ngForm" class="flex flex-col gap-5" (ngSubmit)="handleAuth()">
+                        <app-input-group label="Correo Electrónico" name="regEmail" [(ngModel)]="email" #regEmail="ngModel" 
+                            type="email" placeholder="cliente@empresa.com" [invalid]="regEmail.invalid && regEmail.touched"
+                            errorMessage="Correo inválido.">
+                        </app-input-group>
+                        
+                        <app-input-group label="Contraseña" name="regPassword" [(ngModel)]="password" #regPass="ngModel" 
+                            type="password" placeholder="Mín. 6 chars, 1 Mayús, 1 Num" [invalid]="regPass.invalid && regPass.touched"
+                            errorMessage="Debe tener 6+ chars, 1 Mayús y 1 número.">
+                        </app-input-group>
+                        
+                        <app-input-group label="Confirmar Contraseña" name="regConfirm" [(ngModel)]="confirmPassword" #regConf="ngModel" 
+                            type="password" placeholder="Repetir contraseña" [invalid]="confirmPassword !== password && regConf.touched"
+                            errorMessage="Las contraseñas no coinciden.">
+                        </app-input-group>
+                        
+                        <app-button type="submit" [disabled]="regForm.invalid || confirmPassword !== password">
+                            Crear Cuenta
+                        </app-button>
+                    </form>
+                </div>
+            }
+        </div>
+    </app-card>
+</main>

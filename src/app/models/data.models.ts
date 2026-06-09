@@ -19,7 +19,7 @@ export interface Proyecto {
   id: number;
   Titulo: string;
   Slug: string;
-  Imagen_principal: any;
+  Imagen: any;
   Descripcion_breve: string;
   Descripcion_completa: any[];
   Tipo_proyecto: 'academico' | 'personal' | 'laboral' | 'simulado';

@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { ApiService } from '../../../services/api';
+import { ApiService } from '../../../core/services/api';
 
 @Component({
   selector: 'app-detalle-proyecto',

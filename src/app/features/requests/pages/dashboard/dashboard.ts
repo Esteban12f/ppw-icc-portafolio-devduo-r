@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Auth } from '@angular/fire/auth';
 import { Firestore, collection, collectionData, query, where } from '@angular/fire/firestore';
+import { ButtonComponent } from '../../../../shared/components/button-component/button-component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, ButtonComponent],
   templateUrl: './dashboard.html'
 })
 export class Dashboard implements OnInit {

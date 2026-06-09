@@ -4,17 +4,18 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Auth } from '@angular/fire/auth';
 import { Firestore, collection, addDoc } from '@angular/fire/firestore';
+import { ButtonComponent } from '../../../../shared/components/button-component/button-component';
 
 @Component({
   selector: 'app-nueva-solicitud',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, ButtonComponent],
   templateUrl: './nueva-solicitud.html'
 })
 export class NuevaSolicitud {
   nuevaSolicitud = {
     nombre: '',
-    email: '',
+    proyecto: '',
     programador: '',
     descripcion: ''
   };
@@ -30,6 +31,11 @@ export class NuevaSolicitud {
       return;
     }
 
+    if (!this.nuevaSolicitud.nombre || this.nuevaSolicitud.descripcion.length < 10) {
+      alert('Por favor, completa los campos correctamente.');
+      return;
+    }
+
     try {
       const colRef = collection(this.firestore, 'solicitudes');
       await addDoc(colRef, {
@@ -40,7 +46,7 @@ export class NuevaSolicitud {
       });
 
       // Redirigir al dashboard después de guardar con éxito
-      this.router.navigate(['/dashboard']); 
+      this.router.navigate(['/dashboard']);
     } catch (error) {
       console.error('Error al crear:', error);
       alert('Error al enviar la solicitud.');
