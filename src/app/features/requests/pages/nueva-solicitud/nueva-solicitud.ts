@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Auth } from '@angular/fire/auth';
 import { Firestore, collection, addDoc } from '@angular/fire/firestore';
 import { ButtonComponent } from '../../../../shared/components/button-component/button-component';
@@ -23,6 +23,8 @@ export class NuevaSolicitud {
   private firestore = inject(Firestore);
   private auth = inject(Auth);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  solicitudId: string | null = null;
 
   async enviarSolicitud() {
     const user = this.auth.currentUser;
@@ -46,7 +48,7 @@ export class NuevaSolicitud {
       });
 
       // Redirigir al dashboard después de guardar con éxito
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/requests']);
     } catch (error) {
       console.error('Error al crear:', error);
       alert('Error al enviar la solicitud.');

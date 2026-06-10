@@ -8,3 +8,15 @@ html, body {
 html {
   scroll-behavior: smooth;
 }
+
+/* Clase aplicada cuando el formulario no es válido */
+.btn-disabled-custom {
+  opacity: 0.5;
+  cursor: not-allowed !important;
+  pointer-events: auto; /* Permite detectar el hover aunque esté bloqueado */
+}
+
+/* Cambia el cursor a "bloqueado" al pasar el mouse */
+.btn-disabled-custom:hover {
+  cursor: not-allowed !important;
+}

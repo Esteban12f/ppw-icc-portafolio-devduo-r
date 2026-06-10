@@ -1,8 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { Auth } from '@angular/fire/auth';
-import { Firestore, collection, collectionData, query, where } from '@angular/fire/firestore';
+import { Auth, onAuthStateChanged } from '@angular/fire/auth';
+import { Firestore, collection, query, where, getDocs, CollectionReference, DocumentData } from '@angular/fire/firestore';
 import { ButtonComponent } from '../../../../shared/components/button-component/button-component';
 
 @Component({
@@ -17,9 +17,10 @@ export class Dashboard implements OnInit {
 
   private firestore = inject(Firestore);
   private auth = inject(Auth);
+  private cdr = inject(ChangeDetectorRef); // Necesario para asegurar la actualización de la vista
 
   ngOnInit() {
-    this.auth.onAuthStateChanged((user) => {
+    onAuthStateChanged(this.auth, (user) => {
       if (user) {
         this.cargarMisSolicitudes(user.uid);
       } else {
@@ -28,12 +29,25 @@ export class Dashboard implements OnInit {
     });
   }
 
-  cargarMisSolicitudes(userId: string) {
-    const colRef = collection(this.firestore, 'solicitudes');
-    const q = query(colRef, where("userId", "==", userId));
-    
-    collectionData(q, { idField: 'id' }).subscribe(data => {
-      this.solicitudes = data;
-    });
+  private async cargarMisSolicitudes(userId: string) {
+    try {
+      const colRef = collection(this.firestore, 'solicitudes') as CollectionReference<DocumentData>;
+      const q = query(colRef, where("userId", "==", userId));
+      
+      const snapshot = await getDocs(q);
+      
+      this.solicitudes = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+
+      console.log("Solicitudes cargadas:", this.solicitudes);
+      
+      // Forzamos a Angular a detectar los cambios y renderizar la tabla
+      this.cdr.detectChanges(); 
+      
+    } catch (err) {
+      console.error("Error al cargar solicitudes:", err);
+    }
   }
 }

@@ -25,6 +25,11 @@ export const routes: Routes = [
     component: NuevaSolicitud
   },
 
+  { 
+    path: 'requests/editar/:id', 
+    component: NuevaSolicitud 
+  },
+
   { path: 'proyecto/:slug', 
     component: DetalleProyectoComponent 
   },

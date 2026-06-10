@@ -1,5 +1,4 @@
 <main class="grow w-full max-w-3xl mx-auto px-6 py-12 md:py-20 relative z-10">
-
   <div class="mb-10">
     <app-button variant="secondary" routerLink="/requests" class="mb-4 inline-flex items-center gap-2">
       &larr; Volver al Centro
@@ -12,11 +11,14 @@
     <form #solicitudForm="ngForm" class="space-y-6" (ngSubmit)="enviarSolicitud()">
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="space-y-2">
+<div class="space-y-2">
           <label class="block text-sm font-semibold text-slate-400 uppercase tracking-wider ml-1">Nombre</label>
           <input name="nombre" [(ngModel)]="nuevaSolicitud.nombre" required #nombre="ngModel"
             [class.border-red-500]="nombre.invalid && nombre.touched"
             class="w-full bg-slate-950 border-2 border-slate-800 rounded-xl px-4 py-3.5 outline-none transition-all text-white focus:border-cyan-500" />
+          @if (nombre.invalid && nombre.touched) {
+            <span class="text-xs text-red-500 ml-1">Campo obligatorio.</span>
+          }
         </div>
 
         <div class="space-y-2">
@@ -24,49 +26,52 @@
           <input name="proyecto" [(ngModel)]="nuevaSolicitud.proyecto" required #proyecto="ngModel"
             [class.border-red-500]="proyecto.invalid && proyecto.touched"
             class="w-full bg-slate-950 border-2 border-slate-800 rounded-xl px-4 py-3.5 outline-none transition-all text-white focus:border-cyan-500" />
-          
           @if (proyecto.invalid && proyecto.touched) {
-            <span class="text-xs text-red-400 ml-1">El nombre del proyecto es obligatorio.</span>
+            <span class="text-xs text-red-500 ml-1">Campo obligatorio.</span>
           }
         </div>
       </div>
 
       <div class="space-y-2">
-        <label class="block text-sm font-semibold text-slate-400 uppercase tracking-wider ml-1">Descripción (mín. 10 caracteres)</label>
+        <label class="block text-sm font-semibold text-slate-400 uppercase tracking-wider ml-1">Descripción</label>
         <textarea name="descripcion" [(ngModel)]="nuevaSolicitud.descripcion" required minlength="10"
           #descripcion="ngModel" placeholder="Cuéntanos los detalles..."
           [class.border-red-500]="descripcion.invalid && descripcion.touched"
           class="w-full bg-slate-950 border-2 border-slate-800 rounded-xl px-4 py-3.5 h-32 outline-none transition-all text-white focus:border-cyan-500 resize-none"></textarea>
-
         <div class="flex justify-between px-1">
           @if (descripcion.invalid && descripcion.touched) {
-            <span class="text-xs text-red-400">Mínimo 10 caracteres requeridos.</span>
+          <span class="text-xs text-red-500 ml-1 block animate-fade-in">Mínimo 10 caracteres requeridos.</span>
           }
           <span class="text-xs text-slate-500 ml-auto">{{ nuevaSolicitud.descripcion.length || 0 }}</span>
         </div>
       </div>
 
       <div class="space-y-2">
-        <label class="block text-sm font-semibold text-slate-400 uppercase tracking-wider ml-1">Programador Asignado</label>
-        <div class="relative group">
-          <select name="programador" [(ngModel)]="nuevaSolicitud.programador" required #prog="ngModel"
-            [class.border-red-500]="prog.invalid && prog.touched"
-            class="w-full bg-slate-950 border-2 border-slate-800 rounded-xl px-4 py-3.5 text-white outline-none appearance-none">
-            <option value="" disabled selected class="bg-slate-900">Selecciona un experto...</option>
-            <option value="Alexander Paucar" class="bg-slate-900 py-2">Alexander Paucar (Ciberseguridad)</option>
-            <option value="Esteban Hernandez" class="bg-slate-900 py-2">Esteban Hernandez (Networking)</option>
-          </select>
+        <label class="block text-sm font-semibold text-slate-400 uppercase tracking-wider ml-1">Programador
+          Asignado</label>
+        <div class="space-y-2">
+          <div class="relative flex items-center">
+            <select name="programador" [(ngModel)]="nuevaSolicitud.programador" required #prog="ngModel"
+              [class.border-red-500]="prog.invalid && prog.touched"
+              class="w-full bg-slate-950 border-2 border-slate-800 rounded-xl px-4 py-3.5 text-white outline-none appearance-none cursor-pointer">
+              <option value="" disabled selected class="bg-slate-900">Selecciona un experto...</option>
+              <option value="Alexander Paucar" class="bg-slate-900 py-2">Alexander Paucar (Ciberseguridad)</option>
+              <option value="Esteban Hernandez" class="bg-slate-900 py-2">Esteban Hernandez (Networking)</option>
+            </select>
+            <svg class="absolute right-4 w-5 h-5 text-slate-400 pointer-events-none" fill="none" stroke="currentColor"
+              viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </div>
         </div>
-        
-        @if (prog.invalid && prog.touched) {
-          <span class="text-xs text-red-400 ml-1">Debes seleccionar un experto.</span>
-        }
-      </div>
 
-      <div class="flex justify-center pt-4">
-        <app-button type="submit" [disabled]="!solicitudForm.invalid" variant="primary" class="w-full md:w-auto">
-          Enviar Solicitud
-        </app-button>
+        <div class="flex justify-center pt-4">
+          <app-button type="submit" variant="primary" [class.opacity-50]="solicitudForm.invalid"
+            [class.cursor-not-allowed]="solicitudForm.invalid"
+            [style.pointer-events]="solicitudForm.invalid ? 'none' : 'auto'" class="transition-opacity duration-200">
+            Enviar Solicitud
+          </app-button>
+        </div>
       </div>
     </form>
   </section>
